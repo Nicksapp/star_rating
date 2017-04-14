@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>星星评价组件</title>
+  <style>
+    .starRating {
+      width: 300px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .starRating ul {
+      overflow: hidden;
+    }
+    .starRating ul li {
+      float: left;
+      width: 48px;
+      height: 48px;
+      list-style: none;
+      background:  url(./star.png) no-repeat 50% 50%;
+      background-size: cover;
+    }
+    .starRating ul li.light {
+      background: url(./star_actived.png) no-repeat 50% 0;
+      background-size: contain;
+    }
+    .starRating ul li a {
+      display: block;
+      width: 100%;
+      padding-top: 48px;
+      overflow: hidden;
+    }
+    /*.starRating ul li a:hover {
+      display: block;
+      background: url(./star_actived.png) no-repeat 50% 0;
+      background-size: contain;
+    }*/
+  </style>
+</head>
+<body>
+  <div class="starRating"><h1>星星评价组件</h1></div>
+  <div class="starRating">
+    <ul>
+      <li><a href="javascript:;">1</a></li>
+      <li><a href="javascript:;">2</a></li>
+      <li><a href="javascript:;">3</a></li>
+      <li><a href="javascript:;">4</a></li>
+      <li><a href="javascript:;">5</a></li>
+     </ul>
+  </div>
+  <div id="info" class="starRating">评分: </div>
+  <script>
+    (function () {
+      // num: 传入点亮星星的个数
+      // finalNum: 最终点亮星星的个数
+      // tempNum: 一个中间值
+      var num = 0,finalNum = 0, tempNum = 0;
+      var list = document.getElementsByTagName('li');
+      var info = document.getElementById("info");
+
+      console.log("begin");
+      // console.log(list);
+      function fnShow(num) {
+        finalNum = num || tempNum; // 如果传入的num为0，则finalNum取tempNum值
+        for (var i = 0;i < list.length;i++) {
+          list[i].className = i < finalNum ? 'light' : '';
+        }
+      }
+      for (var i = 1;i <= list.length;i++) {
+        list[i - 1].index = i;
+        list[i - 1].onmouseover = function(e) {
+          fnShow(this.index);
+          info.innerHTML = "评分: "+e.target.innerText;
+        }
+        list[i - 1].onmouseout = function(e) {
+          fnShow(0);
+          info.innerHTML = "评分: "+e.target.innerText;
+        }
+        // click事件会触发一次mouseover和一次mouseout，所以点击时改变tempnum确定鼠标离开时几颗星亮
+        list[i - 1].onclick = function(e) {
+          tempNum = this.index;
+          console.log("评分: "+e.target.innerText);
+          info.innerHTML = "评分: "+e.target.innerText;
+        }
+      }
+      console.log("end");
+    })();
+
+  </script>
+</body>
+</html>
